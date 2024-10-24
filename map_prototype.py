@@ -21,4 +21,3 @@ df = pd.DataFrame({
 
 # Plot the map with the updated DataFrame
 st.map(df)
-
