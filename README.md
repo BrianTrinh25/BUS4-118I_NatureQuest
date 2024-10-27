@@ -1,2 +1,2 @@
 # 118iGoldenTeam
-no
+AI Hiking Assistant
