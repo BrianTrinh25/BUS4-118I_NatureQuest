@@ -1,6 +1,7 @@
 import os
 import openai
 import streamlit as st
+import time
 from openai import OpenAI
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
@@ -12,7 +13,8 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
         model=model,
         messages=[
         {"role":"system",
-         "content": "You are a hiking expert.  Choose a specific hiking trail based on the hiker's choice of difficulty."},
+         "content": f"Recommend specific easy, medium, and hard trails the hiker can explore within California relevant to their hiking {difficulty}.\
+        Organize the information into a three-column table. Include location, trail name, terrain, elevation, trail length, and landmarks."},
         {"role": "user",
          "content": difficulty},
         ]
@@ -21,13 +23,16 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
 
 # create our streamlit app
 
-
 with st.form(key = "chat"):
-    difficulty = st.radio('Select Difficulty', ['Easy', 'Medium', 'Hard'])
+    difficulty = st.radio('What is your hiking trail experience?', ['Beginner', 'Intermediate', 'Expert'])
+
     #prompt = st.text_input("Enter your ideal difficulty level: ") 
     
     submitted = st.form_submit_button("Submit")
-    
-    if submitted:
-        st.write(get_completion(difficulty))
 
+    with st.spinner("That's great to hear! Here are three hikes you can go on"):
+            time.sleep(5)
+        
+    if submitted:
+        st.success("Generating your recommendations...")
+        st.write(get_completion(difficulty))
