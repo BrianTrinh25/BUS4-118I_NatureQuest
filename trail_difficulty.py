@@ -13,8 +13,9 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
         model=model,
         messages=[
         {"role":"system",
-         "content": f"Recommend specific easy, medium, and hard trails the hiker can explore within California relevant to their hiking {difficulty}.\
-        Organize the information into a three-column table. Include location, trail name, terrain, elevation, trail length, and landmarks."},
+         "content": f"Recommend specific easy, medium, and hard trails the hiker can explore within California.\
+        Organize the information into a three-column table. Include details on location, trail name, terrain, elevation, trail length, and landmarks.\
+        Make sure to recommend trails relevant to the hiker's {difficulty}."},
         {"role": "user",
          "content": difficulty},
         ]
@@ -24,15 +25,12 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
 # create our streamlit app
 
 with st.form(key = "chat"):
-    difficulty = st.radio('What is your hiking trail experience?', ['Beginner', 'Intermediate', 'Expert'])
-
-    #prompt = st.text_input("Enter your ideal difficulty level: ") 
-    
+    difficulty = st.radio('What is your hiking trail experience?', ['Beginner', 'Intermediate', 'Expert'])    
     submitted = st.form_submit_button("Submit")
-
-    with st.spinner("That's great to hear! Here are three hikes you can go on"):
-            time.sleep(5)
         
     if submitted:
+        with st.spinner("That's great to hear! Here are some hikes you can go on"):
+            time.sleep(5)
         st.success("Generating your recommendations...")
         st.write(get_completion(difficulty))
+
