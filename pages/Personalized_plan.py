@@ -11,6 +11,8 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 client = OpenAI()
 
 #Trail Difficulty
+st.markdown("# Trail Difficulty Prototype")
+
 def get_completion(model="gpt-3.5-turbo"):
    completion = client.chat.completions.create(
         model=model,
@@ -23,12 +25,11 @@ def get_completion(model="gpt-3.5-turbo"):
     )
    return completion.choices[0].message.content
 
-
-st.write(get_completion())
-with st.spinner("That's great to hear! Here are some hikes you can go on"):
-    time.sleep(5)
+with st.spinner("That's great to know! Here are some hikes you can go on"):
+    st.write(get_completion())
 st.success("Here we go! Let's go outside")
 
+#Hiking Map
 st.markdown("# Hiking Map Prototype")
 
 zip = st.number_input(
