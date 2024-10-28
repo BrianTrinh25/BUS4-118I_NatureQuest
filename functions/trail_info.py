@@ -16,28 +16,6 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
     )
     return completion.choices[0].message.content
 
-def download_image(filename, url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(filename, 'wb') as file:
-                        file.write(response.content)
-    else:
-        print("Error downloading image from URL:", url)
-        
-def filename_from_input(prompt):
-    # Remove all non-alphanumeric characters from the prompt except spaces.
-    alphanum = ""
-    for character in prompt:
-        if character.isalnum() or character == " ":
-            alphanum += character
-    # Split the alphanumeric prompt into words.
-    # Take the first three words if there are more than three. Else, take all    of them.
-    alphanumSplit = alphanum.split()
-    if len(alphanumSplit) > 3:
-        alphanumSplit = alphanumSplit[:3]
-    # Join the words with underscores and return the result.
-    return "images/" + "_".join(alphanumSplit)
-
 def get_image(prompt, model="dall-e-2"):
     n = 1   # Number of images to generate
     image = client.images.generate(
@@ -55,7 +33,6 @@ with st.form(key = "chat"):
     
     if submitted:
         st.write(get_completion(prompt))
-        
         
         image_url = get_image(prompt)
         st.image(image_url, caption= f'Image of Hike', use_column_width=True) 
