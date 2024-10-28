@@ -1,7 +1,8 @@
 import streamlit as st
+import time
 
-st.markdown("Survey 📑👩🏻‍💻📝")
-st.sidebar.markdown("Complete a quick survey for personalized plan!")
+st.markdown("# Survey 📑👩🏻‍💻📝")
+st.sidebar.markdown("# Complete a quick survey for personalized plan!")
 
 # Survey questions
 hiking_before = st.radio(
@@ -89,3 +90,6 @@ time_check_start, time_check_end = st.select_slider(
     value=("1 Hour", "2 Hours"),
 )
 st.write("You selected the range between", time_check_start, "and", time_check_end)
+
+st.markdown('# Are you ready to go hiking?')
+st.page_link("pages/Personalized_plan.py", label="Your Personalized Plan", icon="💡")
