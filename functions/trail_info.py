@@ -28,7 +28,7 @@ def get_image(prompt, model="dall-e-2"):
 
 
 with st.form(key = "chat"):
-    prompt = st.text_input("", placeholder="e.g., Mission Peak") # TODO!
+    prompt = st.text_input("", placeholder="e.g., Mission Peak")
     submitted = st.form_submit_button("Learn about the hike")
     
     if submitted:
