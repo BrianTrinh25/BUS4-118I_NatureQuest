@@ -18,9 +18,9 @@ def get_completion(model="gpt-3.5-turbo"):
         model=model,
         messages=[
         {"role":"system",
-         "content": f"Recommend specific easy, medium, and hard trails the hiker can explore within California.\
+         "content": f"Recommend specific easy, medium, and hard trails the hiker can explore within the California Bay Area.\
         Organize the information into a three-column table. Include details on location, trail name, terrain, elevation, trail length, and landmarks.\
-        Make sure to recommend trails relevant to the hiker level, which is {hiking_before}."},
+        Make sure to recommend trails relevant to the hiker level, based on their answers from {hiking_before}."},
         ]
     )
    return completion.choices[0].message.content
