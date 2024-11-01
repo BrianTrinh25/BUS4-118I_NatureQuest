@@ -4,10 +4,13 @@ import streamlit_survey as ss
 st.markdown("# Survey 📑👩🏻‍💻📝")
 st.sidebar.markdown("# Complete a quick survey for personalized plan!")
 
+
 survey = ss.StreamlitSurvey()
 pages = survey.pages(8, on_submit=lambda: st.success("Your responses have been recorded. Thank you!"))
 with pages:
     if pages.current == 0:
+        st.write("Please fill out this quick survey for your personalized plan!")
+    if pages.current == 1:
         st.write("Have you gone hiking before?")
         hiking_before = survey.radio(
             "hiking_before",
@@ -28,7 +31,7 @@ with pages:
         elif hiking_before == "No":
             st.write("That's okay to hear! Hope you're excited to go hiking!")
             hiking_experience = "NA"
-    elif pages.current == 1:
+    elif pages.current == 2:
         st.write("Do you have a form of transportation that lets you freely choose \
         where to park? (e.g. personal car, rental, or shared vehicle)")
         transportation = survey.radio(
@@ -37,7 +40,7 @@ with pages:
             horizontal=True,
             label_visibility="collapsed"
         )
-    elif pages.current == 2:
+    elif pages.current == 3:
         st.write("Pick an option for a specific feature you might like to see on your hike: ")
         col1, col2, col3, col4 = st.columns([1,1,1,1])
         with col1:
@@ -52,7 +55,7 @@ with pages:
         with col4:
             if st.button("Mountains", key="button4"):
                 feature = "Mountains"
-    elif pages.current == 3:
+    elif pages.current == 4:
         st.write("Are you looking for a solo hike or hike in a group?")
         col1, col2, = st.columns([1,1])
         solo_or_group = "None"
@@ -62,7 +65,7 @@ with pages:
         with col2:
             if st.button("Group", key="button2"):
                 solo_or_group = "Group"
-    elif pages.current == 4:
+    elif pages.current == 5:
         st.write("Do you plan on bringing a pet onto the trail?")
         pet_on_trail = survey.radio(
             "pet_check",
@@ -70,7 +73,7 @@ with pages:
             horizontal=True,
             label_visibility="collapsed"
         )
-    elif pages.current == 5:
+    elif pages.current == 6:
         st.write("Are you interested in trails that are accessible to people with disabilities?")
         disability_check = survey.radio(
             "disability_check",
@@ -78,7 +81,7 @@ with pages:
             horizontal=True,
             label_visibility="collapsed"
         )
-    elif pages.current == 6:
+    elif pages.current == 7:
         time_check_start, time_check_end = st.select_slider(
         "Select a range for the length of your hiking experience: ",
             options=["30 Minutes","1 Hour","2 Hours","3 Hours","4 Hours","5 Hours","6 Hours","7 Hours",
@@ -87,5 +90,4 @@ with pages:
         value=("1 Hour", "2 Hours")
     )
         
-st.markdown('# Are you ready to go hiking?')
-st.page_link("pages/Personalized_plan.py", label="Your Personalized Plan", icon="💡")
+my_bar = st.progress(int(pages.current*100/7), "Question " + str(pages.current) + " out of 7")
