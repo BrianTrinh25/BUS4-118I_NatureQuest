@@ -10,7 +10,9 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
     completion = client.chat.completions.create(
         model=model,
         messages=[
-        {"role": "system", "content": "respond as a expert trail guide who offers a detailed packing list of what to bring on the specific hike the user enters. Divide the response into three categoires: Absolutley necessary, Recommened, and If extra space.Place the information into a well-designed organized table."},
+        {"role": "system", "content": "respond as a expert trail guide who offers a detailed packing list of what to bring on the\
+         specific hike the user enters. Divide the response into three categoires: Absolutley necessary, Recommened, and If extra\
+         space.Place the information into a well-designed organized table."},
         {"role": "user", "content": prompt},
         ]
     )
