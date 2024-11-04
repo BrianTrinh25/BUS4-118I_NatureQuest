@@ -1,11 +1,17 @@
 import streamlit as st
 import streamlit_survey as ss
 
+##delete me later :D (this is so we can easily navigate the pages while we work on it)
+##if you want to display the pages then copy this one
+st.sidebar.page_link("Survey_page.py", label= "Survey Page")
+st.sidebar.page_link("pages/Personalized_plan", label="Personalized Plan")
+st.sidebar.page_link("pages/transition.py", label="Transition Page")
+
 st.markdown("# Survey 📑👩🏻‍💻📝")
 st.sidebar.markdown("# Complete a quick survey for personalized plan!")
 
 survey = ss.StreamlitSurvey()
-pages = survey.pages(8, on_submit=lambda: st.success("Your responses have been recorded. Thank you!"))
+pages = survey.pages(8, on_submit=lambda: st.switch_page("pages/transition.py"))
 with pages:
     if pages.current == 0:
         st.write("Let's get started!")
@@ -92,7 +98,5 @@ with pages:
     ],
         value=("1 Hour", "2 Hours")
     )  
-        st.markdown('# Are you ready to go hiking?')
-        st.page_link("pages/Personalized_plan.py", label="Your Personalized Plan", icon="💡")
         
 my_bar = st.progress(int(pages.current*100/7), "Question " + str(pages.current) + " out of 7")

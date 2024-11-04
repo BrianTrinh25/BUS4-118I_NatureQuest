@@ -6,7 +6,7 @@ st.sidebar.markdown("# Complete a quick survey for personalized plan!")
 
 
 survey = ss.StreamlitSurvey()
-pages = survey.pages(8, on_submit=lambda: st.success("Your responses have been recorded. Thank you!"))
+pages = survey.pages(8)
 with pages:
     if pages.current == 0:
         st.write("Please fill out this quick survey for your personalized plan!")
