@@ -22,45 +22,45 @@ st.sidebar.page_link("pages/transition.py", label="Transition Page")
 # Load the dataset into a pandas DataFrame
 data = pd.read_excel('pages/trails_list.xlsx')
 
-def get_completion(model="gpt-3.5-turbo"):
+def get_completion1(model="gpt-3.5-turbo"):
    completion = client.chat.completions.create(
         model=model,
         messages=[
         {"role":"system",
-         "content": f"Get information from {data}, based on {Survey_page.hiking_experience}, use the intensity column, suggest 3 random trails.\
-            Suggest Easy for beginner, Moderate for Intermediate, Challenging for Advanced. Display a table where some additional information\
-            are considered: show the corres[onding column for hike_length, shuttle_possible for people with {Survey_page.transportation} transportation if no, dog_allowed or not if yes on {Survey_page.pet_on_trail}"},
+         "content": f"Get information from {data}, suggest 3 random trails based on the user level {prompt1}, use the intensity column\
+            Only suggest Easy for beginner, Moderate for Intermediate, Challenging for Advanced. Display a table where some additional information\
+            are considered: trail_name, show the corresponding column for hike_length, shuttle_possible for people with no transportation, dog_allowed Yes or No"},
         ]
     )
    return completion.choices[0].message.content
 
-with st.spinner("That's great to know! Here are some hikes you can go on"):
-    st.write(get_completion())
-st.success("Here we go! Let's go outside")
+with st.form(key = "chat1"):
+    prompt1 = st.text_input("Level? Beginner, Intermediate, Advanced")
+    submitted = st.form_submit_button("Submit")
+        
+    if submitted:
+        with st.spinner("That's great to know! Here are some hikes you can go on"):
+            st.write(get_completion1())
+        st.success("Here we go! Let's go outside")
 
 #Hiking Map
 st.markdown("# Hiking Map Prototype")
 
-zip = st.text_input(
-    "City", value=None, placeholder="City"
-)
-
-distance = st.selectbox(
-    "Distance",
-    ("5 mi", "10 mi", "25 mi", "50 mi"),
+trail_selection = st.text_input(
+    "Which trails do you want to go to?", value=None, placeholder= None
 )
 
 # Update your DataFrame with the specific coordinates
 df = pd.DataFrame({
-    'lat': [37.307226530422035, 37.269817968115234, 37.445452198845956, 37.42591903699686, 37.3954045204858, 37.293801584395865, 37.23301521261931],
-    'lon': [-121.9137624590682, -121.94942483361638, -121.84741556130625, -121.92485823400975, -121.82525695742902, -122.04148682149903, -121.92715082443866]
+    'lat': [37.1936853],
+    'lon': [-121.8389462]
 })
 
 # Plot the map with the updated DataFrame
 st.map(df)
 
 #Plants and Terrain Prototype
-def get_completion(prompt, model="gpt-3.5-turbo"):
+def get_completion2(prompt, model="gpt-3.5-turbo"):
     completion = client.chat.completions.create(
         model=model,
         messages=[
@@ -79,7 +79,7 @@ def get_image(prompt, model="dall-e-2"):
     n = 3   # Number of images to generate
     images = client.images.generate(
         prompt=f"Generate 3 images of the {prompt} based on the 3 columns\
-              {get_completion(prompt)}, first column should be about possible plants\
+              {get_completion1(prompt)}, first column should be about possible plants\
                 one might see on the trail, second is possible animal, third is the terrain",
         model=model,
         n=n,
@@ -92,7 +92,7 @@ with st.form(key = "chat"):
     submitted = st.form_submit_button("Submit")
         
     if submitted:
-        st.write(get_completion(prompt))
+        st.write(get_completion2(prompt))
         
         urls = get_image(prompt)
 
