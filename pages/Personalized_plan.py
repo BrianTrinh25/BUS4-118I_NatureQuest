@@ -4,7 +4,7 @@ import streamlit as st
 import time
 from openai import OpenAI
 import pandas as pd
-from Survey_page import hiking_experience, transportation, specific_features, solo_or_group, pet_on_trail, disability_check, time_check_start, time_check_end
+import Survey_page
 
 #get OpenAI key
 openai.api_key = os.environ["OPENAI_API_KEY"]
@@ -20,17 +20,16 @@ st.sidebar.page_link("pages/Personalized_plan.py", label="Personalized Plan")
 st.sidebar.page_link("pages/transition.py", label="Transition Page")
 
 # Load the dataset into a pandas DataFrame
-data = pd.read_csv('pages/trails_list.xlsx')
+data = pd.read_excel('pages/trails_list.xlsx')
 
 def get_completion(model="gpt-3.5-turbo"):
    completion = client.chat.completions.create(
         model=model,
         messages=[
         {"role":"system",
-         "content": f"Get information from {data}, based on {hiking_experience}, use the intensity column, suggest 3 random trails.\
+         "content": f"Get information from {data}, based on {Survey_page.hiking_experience}, use the intensity column, suggest 3 random trails.\
             Suggest Easy for beginner, Moderate for Intermediate, Challenging for Advanced. Display a table where some additional information\
-            are considered:  shuttle_possible for people with {transportation} transportation if no, dog_allowed or not if yes on {pet_on_trail}\
-"},
+            are considered: show the corres[onding column for hike_length, shuttle_possible for people with {Survey_page.transportation} transportation if no, dog_allowed or not if yes on {Survey_page.pet_on_trail}"},
         ]
     )
    return completion.choices[0].message.content
@@ -42,8 +41,8 @@ st.success("Here we go! Let's go outside")
 #Hiking Map
 st.markdown("# Hiking Map Prototype")
 
-zip = st.number_input(
-    "Zip code", value=None, placeholder="Zip Code"
+zip = st.text_input(
+    "City", value=None, placeholder="City"
 )
 
 distance = st.selectbox(
