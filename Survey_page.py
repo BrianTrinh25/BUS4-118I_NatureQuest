@@ -63,7 +63,7 @@ with pages:
         with col4:
             st.image("https://media.cntraveler.com/photos/6072054bac52332b71f172b3/master/w_1600,c_limit/DDCK8A.jpg", caption= None, use_column_width=True) 
             if st.button("Mountains", key="button4"):
-                feature = "Mountains"
+                specific_features = "Mountains"
     elif pages.current == 4:
         st.write("Are you looking for a solo hike or hike in a group?")
         col1, col2, = st.columns([1,1])

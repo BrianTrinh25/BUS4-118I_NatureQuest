@@ -4,7 +4,7 @@ import streamlit as st
 import time
 from openai import OpenAI
 import pandas as pd
-from Survey_page import hiking_before
+from Survey_page import hiking_experience, transportation, specific_features, solo_or_group, pet_on_trail, disability_check, time_check_start, time_check_end
 
 #get OpenAI key
 openai.api_key = os.environ["OPENAI_API_KEY"]
@@ -19,14 +19,18 @@ st.sidebar.page_link("Survey_page.py", label= "Survey Page")
 st.sidebar.page_link("pages/Personalized_plan.py", label="Personalized Plan")
 st.sidebar.page_link("pages/transition.py", label="Transition Page")
 
+# Load the dataset into a pandas DataFrame
+data = pd.read_csv('pages/trails_list.xlsx')
+
 def get_completion(model="gpt-3.5-turbo"):
    completion = client.chat.completions.create(
         model=model,
         messages=[
         {"role":"system",
-         "content": f"Recommend specific easy, medium, and hard trails the hiker can explore within the California Bay Area.\
-        Organize the information into a three-column table. Include details on location, trail name, terrain, elevation, trail length, and landmarks.\
-        Make sure to recommend trails relevant to the hiker level, based on their answers from {hiking_before}."},
+         "content": f"Get information from {data}, based on {hiking_experience}, use the intensity column, suggest 3 random trails.\
+            Suggest Easy for beginner, Moderate for Intermediate, Challenging for Advanced. Display a table where some additional information\
+            are considered:  shuttle_possible for people with {transportation} transportation if no, dog_allowed or not if yes on {pet_on_trail}\
+"},
         ]
     )
    return completion.choices[0].message.content
