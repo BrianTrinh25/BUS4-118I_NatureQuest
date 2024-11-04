@@ -13,6 +13,12 @@ client = OpenAI()
 #Trail Difficulty
 st.markdown("# Trail Difficulty Prototype")
 
+##delete me later :D (this is so we can easily navigate the pages while we work on it)
+##if you want to display the pages then copy this one
+st.sidebar.page_link("Survey_page.py", label= "Survey Page")
+st.sidebar.page_link("pages/Personalized_plan.py", label="Personalized Plan")
+st.sidebar.page_link("pages/transition.py", label="Transition Page")
+
 def get_completion(model="gpt-3.5-turbo"):
    completion = client.chat.completions.create(
         model=model,
