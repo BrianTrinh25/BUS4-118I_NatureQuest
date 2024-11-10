@@ -4,7 +4,7 @@ import streamlit as st
 import time
 from openai import OpenAI
 import pandas as pd
-import Survey_page
+from Survey_page import result
 
 #get OpenAI key
 openai.api_key = os.environ["OPENAI_API_KEY"]
@@ -22,26 +22,27 @@ st.sidebar.page_link("pages/transition.py", label="Transition Page")
 # Load the dataset into a pandas DataFrame
 data = pd.read_excel('pages/trails_list.xlsx')
 
+
 def get_completion1(model="gpt-3.5-turbo"):
    completion = client.chat.completions.create(
         model=model,
         messages=[
         {"role":"system",
-         "content": f"Get information from {data}, suggest 3 random trails based on the user level {prompt1}, use the intensity column\
+         "content": f"Get information from {data}, suggest 3 random trails based on the user level {result["hiking_experience"]}, use the intensity column\
             Only suggest Easy for beginner, Moderate for Intermediate, Challenging for Advanced. Display a table where some additional information\
             are considered: trail_name, show the corresponding column for hike_length, shuttle_possible for people with no transportation, dog_allowed Yes or No"},
         ]
     )
    return completion.choices[0].message.content
 
-with st.form(key = "chat1"):
-    prompt1 = st.text_input("Level? Beginner, Intermediate, Advanced")
-    submitted = st.form_submit_button("Submit")
+# with st.form(key = "chat1"):
+#     prompt1 = st.text_input("Level? Beginner, Intermediate, Advanced")
+#     submitted = st.form_submit_button("Submit")
         
-    if submitted:
-        with st.spinner("That's great to know! Here are some hikes you can go on"):
-            st.write(get_completion1())
-        st.success("Here we go! Let's go outside")
+#     if submitted:
+with st.spinner("That's great to know! Here are some hikes you can go on"):
+    st.write(get_completion1())
+st.success("Here we go! Let's go outside")
 
 #Hiking Map
 st.markdown("# Hiking Map Prototype")
