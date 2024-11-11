@@ -1,5 +1,12 @@
 import streamlit as st
-
+st.markdown("""
+    <style>
+      section[data-testid="stSidebar"] {
+        top: -7%; 
+        height: 200% !important;
+      }
+    </style>""", unsafe_allow_html=True)
+st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
 ##delete me later :D (this is so we can easily navigate the pages while we work on it)
 ##if you want to display the pages then copy this one
 st.sidebar.page_link("Survey_page.py", label= "Survey Page")

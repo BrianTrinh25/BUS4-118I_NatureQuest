@@ -9,7 +9,14 @@ from Survey_page import result
 #get OpenAI key
 openai.api_key = os.environ["OPENAI_API_KEY"]
 client = OpenAI()
-
+st.markdown("""
+    <style>
+      section[data-testid="stSidebar"] {
+        top: -7%; 
+        height: 200% !important;
+      }
+    </style>""", unsafe_allow_html=True)
+st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
 #Trail Difficulty
 st.markdown("# Trail Selection")
 
