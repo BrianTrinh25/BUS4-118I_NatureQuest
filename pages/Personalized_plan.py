@@ -92,7 +92,7 @@ def get_completion2(prompt, model="gpt-3.5-turbo"):
 def get_image(prompt, model="dall-e-2"):
     n = 3   # Number of images to generate
     images = client.images.generate(
-        prompt=f"Generate 3 images of the {prompt} based on the 3 columns\
+        prompt=f"Generate 3 images of the {trail_selection} based on the 3 columns\
               {get_completion2(prompt)}, first column should be about possible plants\
                 one might see on the trail, second is possible animal, third is the terrain",
         model=model,
@@ -101,31 +101,26 @@ def get_image(prompt, model="dall-e-2"):
     )
     return [image.url for image in images.data]
 
-with st.form(key = "chat"):
-    prompt = st.text_input("Which trail would you like to go to?")
-    submitted = st.form_submit_button("Submit")
-        
-    if submitted:
-        st.write(get_completion2(prompt))
-        
-        urls = get_image(prompt)
+st.write(get_completion2(trail_selection))
 
-        st.subheader('Here are additional informations:', divider='grey')
-        col1, col2, col3 = st.columns(3)
+urls = get_image(trail_selection)
 
-        with col1:
-            st.header("Plants")
-            st.image(urls[0], caption= f'Possible Plants and Flora', use_column_width=True) 
+st.subheader('Here are additional informations:', divider='grey')
+col1, col2, col3 = st.columns(3)
 
-        with col2:
-            st.header("Animals")
-            st.image(urls[1], caption= f'Animals Encounter', use_column_width=True) 
+with col1:
+    st.header("Plants")
+    st.image(urls[0], caption= f'Possible Plants and Flora', use_column_width=True) 
 
-        with col3:
-            st.header("Terrain")
-            st.image(urls[2], caption= f'Hiking Terrain', use_column_width=True) 
+with col2:
+    st.header("Animals")
+    st.image(urls[1], caption= f'Animals Encounter', use_column_width=True) 
 
-st.markdown("# Caution!")
+with col3:
+    st.header("Terrain")
+    st.image(urls[2], caption= f'Hiking Terrain', use_column_width=True) 
+
+# st.markdown("# Caution!")
 
 # def get_completion(prompt, model="gpt-3.5-turbo"):
 #     completion = client.chat.completions.create(
