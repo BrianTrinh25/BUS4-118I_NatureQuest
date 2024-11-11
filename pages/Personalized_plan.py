@@ -47,29 +47,32 @@ st.success("Here we go! Let's go outside")
 
 #Location Map
 st.markdown("# Location Map")
+with st.form(key = "chat"):
+    trail_selection = st.text_input(
+        "Which trails do you want to go to?", 
+        value=None, 
+        placeholder="Enter trail name"
+    )
+    submitted = st.form_submit_button("Submit")
+        
+    if submitted:
+        if trail_selection in data['trail_name'].values:
+            selected_trail = data[data['trail_name'] == trail_selection]
+            
+            # Extract the first values from latitude and longitude columns
+            lat = selected_trail['latitude'].iloc[0]
+            lon = selected_trail['longitude'].iloc[0]
 
-trail_selection = st.text_input(
-    "Which trails do you want to go to?", 
-    value=None, 
-    placeholder="Enter trail name"
-)
-if trail_selection in data['trail_name'].values:
-    selected_trail = data[data['trail_name'] == trail_selection]
-    
-    # Extract the first values from latitude and longitude columns
-    lat = selected_trail['latitude'].iloc[0]
-    lon = selected_trail['longitude'].iloc[0]
+            # Update the DataFrame with the specific coordinates
+            df = pd.DataFrame({
+                'lat': [lat],
+                'lon': [lon]
+            })
 
-    # Update the DataFrame with the specific coordinates
-    df = pd.DataFrame({
-        'lat': [lat],
-        'lon': [lon]
-    })
-
-    # Plot the map with the updated DataFrame
-    st.map(df)
-else:
-    st.error("Selected trail not found.")
+            # Plot the map with the updated DataFrame
+            st.map(df)
+        else:
+            st.error("Selected trail not found.")
 
 #Plants and Terrain Prototype
 def get_completion2(prompt, model="gpt-3.5-turbo"):
@@ -89,7 +92,7 @@ def get_image(prompt, model="dall-e-2"):
     n = 3   # Number of images to generate
     images = client.images.generate(
         prompt=f"Generate 3 images of the {prompt} based on the 3 columns\
-              {get_completion1(prompt)}, first column should be about possible plants\
+              {get_completion2(prompt)}, first column should be about possible plants\
                 one might see on the trail, second is possible animal, third is the terrain",
         model=model,
         n=n,
