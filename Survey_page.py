@@ -1,6 +1,13 @@
 import streamlit as st
 import streamlit_survey as ss
-
+st.markdown("""
+    <style>
+      section[data-testid="stSidebar"] {
+        top: -7%; 
+        height: 200% !important;
+        background-color: #E3FFD5;
+      }
+    </style>""", unsafe_allow_html=True)
 st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
 ##delete me later :D (this is so we can easily navigate the pages while we work on it)
 ##if you want to display the pages then copy this one
@@ -12,29 +19,6 @@ st.sidebar.page_link("pages/transition.py", label="Transition Page")
 st.markdown("# Survey 📑👩🏻‍💻📝")
 st.sidebar.markdown("# Complete a quick survey for personalized plan!")
 
-st.markdown("""
-    <style>
-      section[data-testid="stSidebar"] {
-        top: -7%; 
-        height: 200% !important;
-      }
-    </style>""", unsafe_allow_html=True)
-st.markdown(
-    """
-    <style>
-        .stProgress > div > div > div > div {
-            background-color: green;
-        }
-        /* Style for the empty part of the progress bar */
-        .stProgress > div > div > div {
-            background-color: #F0F2F6;
-        }
-        .stSlider > div > div > div  {
-            background-color: #FOF2F6;
-        }
-    </style>""",
-    unsafe_allow_html=True,
-)
 result = st.session_state
 if 'hiking_before' not in result:
     result['hiking_before'] = ""
