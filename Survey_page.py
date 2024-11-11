@@ -9,12 +9,6 @@ st.markdown("""
       }
     </style>""", unsafe_allow_html=True)
 st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
-##delete me later :D (this is so we can easily navigate the pages while we work on it)
-##if you want to display the pages then copy this one
-
-st.sidebar.page_link("Survey_page.py", label= "Survey Page")
-st.sidebar.page_link("pages/Personalized_plan.py", label="Personalized Plan")
-st.sidebar.page_link("pages/transition.py", label="Transition Page")
 
 st.markdown("# Survey 📑👩🏻‍💻📝")
 st.sidebar.markdown("# Complete a quick survey for personalized plan!")
