@@ -53,23 +53,23 @@ trail_selection = st.text_input(
     value=None, 
     placeholder="Enter trail name"
 )
-
 if trail_selection in data['trail_name'].values:
     selected_trail = data[data['trail_name'] == trail_selection]
-    lat = selected_trail['latitude']
-    lon = selected_trail['longitude']
-    # Update your DataFrame with the specific coordinates
+    
+    # Extract the first values from latitude and longitude columns
+    lat = selected_trail['latitude'].iloc[0]
+    lon = selected_trail['longitude'].iloc[0]
+
+    # Update the DataFrame with the specific coordinates
     df = pd.DataFrame({
         'lat': [lat],
         'lon': [lon]
     })
+
     # Plot the map with the updated DataFrame
     st.map(df)
-
 else:
     st.error("Selected trail not found.")
-
-
 
 #Plants and Terrain Prototype
 def get_completion2(prompt, model="gpt-3.5-turbo"):

@@ -1,12 +1,6 @@
 import streamlit as st
 import streamlit_survey as ss
-st.markdown("""
-    <style>
-      section[data-testid="stSidebar"] {
-        top: -7%; 
-        height: 200% !important;
-      }
-    </style>""", unsafe_allow_html=True)
+
 st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
 ##delete me later :D (this is so we can easily navigate the pages while we work on it)
 ##if you want to display the pages then copy this one
@@ -18,7 +12,13 @@ st.sidebar.page_link("pages/transition.py", label="Transition Page")
 st.markdown("# Survey 📑👩🏻‍💻📝")
 st.sidebar.markdown("# Complete a quick survey for personalized plan!")
 
-
+st.markdown("""
+    <style>
+      section[data-testid="stSidebar"] {
+        top: -7%; 
+        height: 200% !important;
+      }
+    </style>""", unsafe_allow_html=True)
 st.markdown(
     """
     <style>
