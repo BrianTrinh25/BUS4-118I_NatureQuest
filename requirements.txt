@@ -3,3 +3,4 @@ streamlit
 OpenAI
 pandas
 openpyxl
+streamlit_survey
