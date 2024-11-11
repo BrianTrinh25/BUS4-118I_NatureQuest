@@ -51,6 +51,8 @@ with st.spinner("That's great to know! Here are some hikes you can go on"):
         st.write("Whoops")
 st.success("Here we go! Let's go outside")
 
+trail_selection = ""
+
 #Location Map
 st.markdown("# Location Map")
 with st.form(key = "chat"):
@@ -83,7 +85,6 @@ with st.form(key = "chat"):
 #Plants and Terrain Prototype
 # Assume trail_selection is defined elsewhere in the code
 # Example: trail_selection = "Golden Gate Bridge: Presidio to Marin Headlands"
-
 def get_completion2(model="gpt-3.5-turbo"):
     prompt = f"Provide information about the trail {trail_selection}, with three columns: \
               plants you may encounter, possible dangerous animals on the trail, and the terrain type."
@@ -116,26 +117,28 @@ def get_image(model="dall-e-2"):
     return [image.url for image in images.data]
 
 # Display text completion
-trail_description = get_completion2()
-st.write(trail_description)
+if trail_selection != None:
+    trail_description = get_completion2()
+    st.write(trail_description)
 
 # Generate and display images
-urls = get_image()
+if trail_selection != None:
+    urls = get_image()
 
-st.subheader('Here are additional informations:', divider='grey')
-col1, col2, col3 = st.columns(3)
+    st.subheader('Here are additional informations:', divider='grey')
+    col1, col2, col3 = st.columns(3)
 
-with col1:
-    st.header("Plants")
-    st.image(urls[0], caption= f'Possible Plants and Flora', use_column_width=True) 
+    with col1:
+        st.header("Plants")
+        st.image(urls[0], caption= f'Possible Plants and Flora', use_column_width=True) 
 
-with col2:
-    st.header("Animals")
-    st.image(urls[1], caption= f'Animals Encounter', use_column_width=True) 
+    with col2:
+        st.header("Animals")
+        st.image(urls[1], caption= f'Animals Encounter', use_column_width=True) 
 
-with col3:
-    st.header("Terrain")
-    st.image(urls[2], caption= f'Hiking Terrain', use_column_width=True) 
+    with col3:
+        st.header("Terrain")
+        st.image(urls[2], caption= f'Hiking Terrain', use_column_width=True) 
 
 # st.markdown("# Caution!")
 
