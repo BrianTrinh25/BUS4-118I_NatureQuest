@@ -1,8 +1,10 @@
 import streamlit as st
 import streamlit_survey as ss
 
+st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
 ##delete me later :D (this is so we can easily navigate the pages while we work on it)
 ##if you want to display the pages then copy this one
+
 st.sidebar.page_link("Survey_page.py", label= "Survey Page")
 st.sidebar.page_link("pages/Personalized_plan.py", label="Personalized Plan")
 st.sidebar.page_link("pages/transition.py", label="Transition Page")
@@ -10,19 +12,38 @@ st.sidebar.page_link("pages/transition.py", label="Transition Page")
 st.markdown("# Survey 📑👩🏻‍💻📝")
 st.sidebar.markdown("# Complete a quick survey for personalized plan!")
 
+st.markdown("""
+    <style>
+      section[data-testid="stSidebar"] {
+        top: -7%; 
+        height: 200% !important;
+      }
+    </style>""", unsafe_allow_html=True)
+st.markdown(
+    """
+    <style>
+        .stProgress > div > div > div > div {
+            background-color: green;
+        }
+        /* Style for the empty part of the progress bar */
+        .stProgress > div > div > div {
+            background-color: #F0F2F6;
+        }
+        .stSlider > div > div > div  {
+            background-color: #FOF2F6;
+        }
+    </style>""",
+    unsafe_allow_html=True,
+)
 result = st.session_state
 if 'hiking_before' not in result:
     result['hiking_before'] = ""
 if 'hiking_experience' not in result:
     result['hiking_experience'] = ""
-if 'transportation' not in result:
-    result['transportation'] = ""
 if 'specific_features' not in result:
     result['specific_features'] = ""
 if 'pet_on_trail' not in result:
     result['pet_on_trail'] = ""
-if 'solo_or_group' not in result:
-    result['solo_or_group'] = ""
 if 'disability_check' not in result:
     result['disability_check'] = ""
 if 'tcstart' not in result:
@@ -31,7 +52,7 @@ if 'tcend' not in result:
     result['time_check_end'] = ""
 
 survey = ss.StreamlitSurvey()
-pages = survey.pages(8, on_submit=lambda: st.switch_page("pages/transition.py"))
+pages = survey.pages(6, on_submit=lambda: st.switch_page("pages/transition.py"))
 with pages:
     if pages.current == 0:
         st.write("Let's get started!")
@@ -60,16 +81,6 @@ with pages:
             hiking_experience = "Beginner"
             result["hiking_experience"] = hiking_experience
     elif pages.current == 2:
-        st.write("Do you have a form of transportation that lets you freely choose \
-        where to park? (e.g. personal car, rental, or shared vehicle)")
-        transportation = survey.radio(
-            "transportation_check",
-            options=["Yes", "No"],
-            horizontal=True,
-            label_visibility="collapsed"
-        )
-        result["transportation"] = transportation
-    elif pages.current == 3:
         st.write("Pick an option for a specific feature you might like to see on your hike: ")
         col1, col2, col3, col4 = st.columns([1,1,1,1])
         with col1:
@@ -88,17 +99,7 @@ with pages:
             st.image("https://media.cntraveler.com/photos/6072054bac52332b71f172b3/master/w_1600,c_limit/DDCK8A.jpg", caption= None, use_column_width=True) 
             if st.button("Mountains", key="button4"):
                 result["specific_features"] = "Mountains"
-    elif pages.current == 4:
-        st.write("Are you looking for a solo hike or hike in a group?")
-        col1, col2, = st.columns([1,1])
-        solo_or_group = "None"
-        with col1:
-            if st.button("Solo", key="button1"):
-                result["solo_or_group"] = "Solo"
-        with col2:
-            if st.button("Group", key="button2"):
-                result["solo_or_group"] = "Group"
-    elif pages.current == 5:
+    elif pages.current == 3:
         st.write("Do you plan on bringing a pet onto the trail?")
         pet_on_trail = survey.radio(
             "pet_check",
@@ -107,7 +108,7 @@ with pages:
             label_visibility="collapsed"
         )
         result["pet_on_trail"] = pet_on_trail
-    elif pages.current == 6:
+    elif pages.current == 4:
         st.write("Are you interested in trails that are accessible to people with disabilities?")
         disability_check = survey.radio(
             "disability_check",
@@ -116,7 +117,7 @@ with pages:
             label_visibility="collapsed"
         )
         result["disability_check"] = disability_check
-    elif pages.current == 7:
+    elif pages.current == 5:
         time_check_start, time_check_end = st.select_slider(
         "Select a range for the length of your hiking experience: ",
             options=["30 Minutes","1 Hour","2 Hours","3 Hours","4 Hours","5 Hours","6 Hours","7 Hours",
@@ -127,4 +128,4 @@ with pages:
         result["time_check_start"] = time_check_start
         result["time_check_end"] = time_check_end
         
-my_bar = st.progress(int(pages.current*100/7), "Question " + str(pages.current) + " out of 7")
+my_bar = st.progress(int(pages.current*100/5), "Question " + str(pages.current) + " out of 5")
