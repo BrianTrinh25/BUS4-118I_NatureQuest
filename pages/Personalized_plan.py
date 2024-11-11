@@ -22,26 +22,20 @@ st.sidebar.page_link("pages/transition.py", label="Transition Page")
 # Load the dataset into a pandas DataFrame
 data = pd.read_excel('pages/trail_list.xlsx')
 
-
-def get_completion1(model="gpt-3.5-turbo"):
-   completion = client.chat.completions.create(
-        model=model,
-        messages=[
-        {"role":"system",
-         "content": f"Get information from {data}, suggest 3 random trails based on the user level {result["hiking_experience"]}, use the intensity column\
-            Only suggest Easy for beginner, Moderate for Intermediate, Challenging for Advanced. Display a table where some additional information\
-            are considered: trail_name, show the corresponding column for hike_length, display elevation gain/loss from {data['elevation_gain_loss']}, dog_allowed Yes or No"},
-        ]
-    )
-   return completion.choices[0].message.content
-
-# with st.form(key = "chat1"):
-#     prompt1 = st.text_input("Level? Beginner, Intermediate, Advanced")
-#     submitted = st.form_submit_button("Submit")
-        
-#     if submitted:
+#Trail Selection
 with st.spinner("That's great to know! Here are some hikes you can go on"):
-    st.write(get_completion1())
+    if result['hiking_experience'] == 'Beginner':
+        easy_trails = data[data['intensity_rating'] == 'Easy']
+        # Select 3 random trails
+        random_easy_trails = easy_trails.sample(n=3, replace=True) if len(easy_trails) >= 3 else easy_trails
+        st.write(random_easy_trails)
+    elif result['hiking_experience'] == 'Intermediate':
+        int_trails = data[data['intensity_rating'] == 'Moderate']
+        # Select 3 random trails
+        random_int_trails = int_trails.sample(n=3, replace=True) if len(int_trails) >= 3 else int_trails
+        st.write(random_int_trails)
+    else:
+        st.write("Whoops")
 st.success("Here we go! Let's go outside")
 
 #Location Map
