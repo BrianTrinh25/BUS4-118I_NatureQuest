@@ -17,7 +17,7 @@ st.markdown("""
         background-color: #E3FFD5;
       }
     </style>""", unsafe_allow_html=True)
-st.sidebar.image("pages/logo.png", use_container_width=True, caption=None)
+st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
 #Trail Difficulty
 st.markdown("# Trail Selection")
 # Load the dataset into a pandas DataFrame
@@ -123,15 +123,15 @@ if trail_selection != None:
 
     with col1:
         st.header("Plants")
-        st.image(urls[0], caption= f'Possible Plants and Flora', use_container_width=True) 
+        st.image(urls[0], caption= f'Possible Plants and Flora', use_column_width=True) 
 
     with col2:
         st.header("Animals")
-        st.image(urls[1], caption= f'Animals Encounter', use_container_width=True) 
+        st.image(urls[1], caption= f'Animals Encounter', use_column_width=True) 
 
     with col3:
         st.header("Terrain")
-        st.image(urls[2], caption= f'Hiking Terrain', use_container_width=True) 
+        st.image(urls[2], caption= f'Hiking Terrain', use_column_width=True) 
 
 # st.markdown("# Caution!")
 

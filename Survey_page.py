@@ -8,7 +8,7 @@ st.markdown("""
         background-color: #E3FFD5;
       }
     </style>""", unsafe_allow_html=True)
-st.sidebar.image("pages/logo.png", use_container_width=True, caption=None)
+st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
 
 st.markdown("# Survey 📑👩🏻‍💻📝")
 st.sidebar.markdown("# Complete a quick survey for personalized plan!")
@@ -62,19 +62,19 @@ with pages:
         st.write("Pick an option for a specific feature you might like to see on your hike: ")
         col1, col2, col3, col4 = st.columns([1,1,1,1])
         with col1:
-            st.image("https://s.hdnux.com/photos/01/36/43/64/24788256/3/ratio3x2_1920.jpg", caption= None, use_container_width=True) 
+            st.image("https://s.hdnux.com/photos/01/36/43/64/24788256/3/ratio3x2_1920.jpg", caption= None, use_column_width=True) 
             if st.button("Waterfalls", key="button1"):
                 result["specific_features"] = "Waterfalls"
         with col2:
-            st.image("https://alamedapost.com/wp-content/uploads/2024/09/DSC_1383_Resized-1024x683.jpg", caption= None, use_container_width=True) 
+            st.image("https://alamedapost.com/wp-content/uploads/2024/09/DSC_1383_Resized-1024x683.jpg", caption= None, use_column_width=True) 
             if st.button("Lakes", key="button2"):
                 result["specific_features"] = "Lakes"
         with col3:
-            st.image("https://media.cntraveler.com/photos/65de1637b4f65c227f63206d/master/w_1600,c_limit/GettyImages-474009330.jpeg", caption= None, use_container_width=True) 
+            st.image("https://media.cntraveler.com/photos/65de1637b4f65c227f63206d/master/w_1600,c_limit/GettyImages-474009330.jpeg", caption= None, use_column_width=True) 
             if st.button("Forests", key="button3"):
                 result["specific_features"] = "Forests"
         with col4:
-            st.image("https://media.cntraveler.com/photos/6072054bac52332b71f172b3/master/w_1600,c_limit/DDCK8A.jpg", caption= None, use_container_width=True) 
+            st.image("https://media.cntraveler.com/photos/6072054bac52332b71f172b3/master/w_1600,c_limit/DDCK8A.jpg", caption= None, use_column_width=True) 
             if st.button("Mountains", key="button4"):
                 result["specific_features"] = "Mountains"
     elif pages.current == 3:
