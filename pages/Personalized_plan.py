@@ -76,34 +76,46 @@ with st.form(key = "chat"):
             st.error("Selected trail not found.")
 
 #Plants and Terrain Prototype
-def get_completion2(prompt, model="gpt-3.5-turbo"):
+# Assume trail_selection is defined elsewhere in the code
+# Example: trail_selection = "Golden Gate Bridge: Presidio to Marin Headlands"
+
+def get_completion2(model="gpt-3.5-turbo"):
+    prompt = f"Provide information about the trail {trail_selection}, with three columns: \
+              plants you may encounter, possible dangerous animals on the trail, and the terrain type."
+    
     completion = client.chat.completions.create(
         model=model,
         messages=[
-        {"role": "system", "content": "respond as a expert trail guide who offers \
-         3 columns of information about the possible hike trail. One column will be\
-         for the plants you may encounter on the hike, the middle column is for warning of\
-         possible dangerous animals on that trail, and the third column is for the kind of terrain the trail is."},
-        {"role": "user", "content": prompt},
+            {"role": "system", "content": "Respond as an expert trail guide offering three columns of information."},
+            {"role": "user", "content": prompt},
         ]
     )
     return completion.choices[0].message.content
 
-def get_image(prompt, model="dall-e-2"):
-    n = 3   # Number of images to generate
+def get_image(model="dall-e-2"):
+    # Get the completion from get_completion2
+    completion_text = get_completion2()
+    
+    # Form the image prompt based on the text response
+    image_prompt = f"Generate 3 images of the trail {trail_selection} based on the following details:\n\
+                     Plants one might see: {completion_text.splitlines()[0]},\n\
+                     Possible animals: {completion_text.splitlines()[1]},\n\
+                     Terrain: {completion_text.splitlines()[2]}."
+
     images = client.images.generate(
-        prompt=f"Generate 3 images of the {trail_selection} based on the 3 columns\
-              {get_completion2(prompt)}, first column should be about possible plants\
-                one might see on the trail, second is possible animal, third is the terrain",
+        prompt=image_prompt,
         model=model,
-        n=n,
+        n=3,
         size="1024x1024"
     )
     return [image.url for image in images.data]
 
-st.write(get_completion2(trail_selection))
+# Display text completion
+trail_description = get_completion2()
+st.write(trail_description)
 
-urls = get_image(trail_selection)
+# Generate and display images
+urls = get_image()
 
 st.subheader('Here are additional informations:', divider='grey')
 col1, col2, col3 = st.columns(3)
