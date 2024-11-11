@@ -42,6 +42,11 @@ with st.spinner("That's great to know! Here are some hikes you can go on"):
         # Select 3 random trails
         random_int_trails = int_trails.sample(n=3, replace=True) if len(int_trails) >= 3 else int_trails
         st.write(random_int_trails)
+    elif result['hiking_experience'] == 'Advanced':
+        diff_trails = data[data['intensity_rating'] == 'Challenging']
+        # Select 3 random trails
+        random_diff_trails = diff_trails.sample(n=3, replace=True) if len(diff_trails) >= 3 else diff_trails
+        st.write(random_diff_trails)
     else:
         st.write("Whoops")
 st.success("Here we go! Let's go outside")
