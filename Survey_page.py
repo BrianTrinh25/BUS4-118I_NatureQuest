@@ -8,7 +8,7 @@ st.markdown("""
         background-color: #E3FFD5;
       }
     </style>""", unsafe_allow_html=True)
-st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
+st.sidebar.image("pages/logo.png", use_container_width=True, caption=None)
 
 st.markdown("# Survey 📑👩🏻‍💻📝")
 st.sidebar.markdown("# Complete a quick survey for personalized plan!")
