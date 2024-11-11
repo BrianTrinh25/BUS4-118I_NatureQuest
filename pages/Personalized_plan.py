@@ -118,20 +118,20 @@ if trail_selection != None:
 if trail_selection != None:
     urls = get_image()
 
-    st.subheader('Here are additional informations:', divider='grey')
+    st.subheader('Here is some additional information:', divider='grey')
     col1, col2, col3 = st.columns(3)
 
     with col1:
         st.header("Plants")
-        st.image(urls[0], caption= f'Possible Plants and Flora', use_column_width=True) 
+        st.image(urls[0], caption= f'Possible Plants and Flora', use_container_width=True) 
 
     with col2:
         st.header("Animals")
-        st.image(urls[1], caption= f'Animals Encounter', use_column_width=True) 
+        st.image(urls[1], caption= f'Animals Encounter', use_container_width=True) 
 
     with col3:
         st.header("Terrain")
-        st.image(urls[2], caption= f'Hiking Terrain', use_column_width=True) 
+        st.image(urls[2], caption= f'Hiking Terrain', use_container_width=True) 
 
 # st.markdown("# Caution!")
 
