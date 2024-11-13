@@ -1,5 +1,7 @@
 import streamlit as st
 import streamlit_survey as ss
+
+#format sidebar
 st.markdown("""
     <style>
       section[data-testid="stSidebar"] {
@@ -13,6 +15,7 @@ st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
 st.markdown("# Survey 📑👩🏻‍💻📝")
 st.sidebar.markdown("# Complete a quick survey for personalized plan!")
 
+#create results checker
 result = st.session_state
 if 'hiking_before' not in result:
     result['hiking_before'] = ""
@@ -24,12 +27,14 @@ if 'pet_on_trail' not in result:
     result['pet_on_trail'] = ""
 if 'disability_check' not in result:
     result['disability_check'] = ""
-if 'tcstart' not in result:
+if 'time_check_start' not in result:
     result['time_check_start'] = ""
-if 'tcend' not in result:
+if 'time_check_end' not in result:
     result['time_check_end'] = ""
 
 survey = ss.StreamlitSurvey()
+
+#survey
 pages = survey.pages(6, on_submit=lambda: st.switch_page("pages/transition.py"))
 with pages:
     if pages.current == 0:
@@ -83,6 +88,7 @@ with pages:
             "pet_check",
             options=["Yes", "No"],
             horizontal=True,
+            index=None,
             label_visibility="collapsed"
         )
         result["pet_on_trail"] = pet_on_trail
@@ -92,7 +98,9 @@ with pages:
             "disability_check",
             options=["Yes", "No"],
             horizontal=True,
-            label_visibility="collapsed"
+            index=None,
+            label_visibility="collapsed",
+            
         )
         result["disability_check"] = disability_check
     elif pages.current == 5:
@@ -106,4 +114,5 @@ with pages:
         result["time_check_start"] = time_check_start
         result["time_check_end"] = time_check_end
         
+#progress bar
 my_bar = st.progress(int(pages.current*100/5), "Question " + str(pages.current) + " out of 5")
