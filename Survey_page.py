@@ -16,10 +16,11 @@ st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
 if 'show_survey' not in st.session_state:
     st.session_state.show_survey = False
 
-# Initial welcome section
+# Initial title page
 if not st.session_state.show_survey:
-    st.title("Nature Quest")
-    description = st.text_area("Description:", value="Welcome to Nature Quest! Your personalized hiking adventure begins here. Answer a few quick questions, and we'll help you discover the perfect trail for your outdoor journey. Whether you're a first-time hiker or an experienced adventurer, we've got the perfect match for you.", height=100)
+    st.title("Nature Quest - AI Hiking Assistant")
+    st.sidebar.markdown("# Welcome!")
+    description = st.text_area("Description:", value="Welcome to Nature Quest! Your personalized hiking adventure begins here. Answer a few quick questions, and we'll help you discover the perfect trail for your outdoor journey. Regardless of your experience, we'll find the perfect match for you.", height=100)
     if st.button("Let's go!", type="primary"):
         st.session_state.show_survey = True
         st.rerun()
@@ -27,7 +28,7 @@ if not st.session_state.show_survey:
 # Survey section
 if st.session_state.show_survey:
     st.markdown("# Survey 📑👩🏻‍💻📝")
-    st.sidebar.markdown("# Complete a quick survey for personalized plan!")
+    st.sidebar.markdown("# Complete a quick survey for your personalized plan!")
 
     #create results checker
     result = st.session_state

@@ -7,14 +7,14 @@ import pandas as pd
 from Survey_page import result
 
 # Initialize session state if nonexisting
-if 'selected_trail' not in st.session_state:
-    st.session_state.selected_trail = None
-if 'show_details' not in st.session_state:
-    st.session_state.show_details = False
-if 'trail_options' not in st.session_state:
-    st.session_state.trail_options = None
-if 'selected_trail_name' not in st.session_state:
-    st.session_state.selected_trail_name = None
+if 'selectedTrail' not in st.session_state:
+    st.session_state.selectedTrail = None
+if 'showDetails' not in st.session_state:
+    st.session_state.showDetails = False
+if 'trailOptions' not in st.session_state:
+    st.session_state.trailOptions = None
+if 'selectedTrailName' not in st.session_state:
+    st.session_state.selectedTrailName = None
 
 #get OpenAI key
 openai.api_key = os.environ["OPENAI_API_KEY"]
@@ -28,7 +28,7 @@ st.markdown("""
       }
     </style>""", unsafe_allow_html=True)
 st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
-
+st.sidebar.markdown("Your personalized plan begins here.")
 st.markdown("# Trail Selection")
 # Load the dataset into a pandas DataFrame
 data = pd.read_excel('pages/trail_list.xlsx')
@@ -38,19 +38,18 @@ trail_selection = ""
 
 # Define callback functions for buttons
 def show_trail_details(trail_option):
-    st.session_state.selected_trail = trail_option
-    st.session_state.show_details = True
+    st.session_state.selectedTrail = trail_option
+    st.session_state.showDetails = True
 
 #Trail Selection
 st.success("Here we go! Let's go outside!")
 with st.spinner("That's great to know! Here are some hikes you can go on"):
-    # Select 3 random trails
-    if st.session_state.trail_options is None:
+    if st.session_state.trailOptions is None:
         # Select 3 random trails for Beginner
         if result['hiking_experience'] == 'Beginner':
             easy_trails = data[data['intensity_rating'] == 'Easy']
             random_easy_trails = easy_trails.sample(n=3, replace=True) if len(easy_trails) >= 3 else easy_trails
-            st.session_state.trail_options = {
+            st.session_state.trailOptions = {
                 'option1': random_easy_trails.iloc[0],
                 'option2': random_easy_trails.iloc[1],
                 'option3': random_easy_trails.iloc[2],
@@ -62,7 +61,7 @@ with st.spinner("That's great to know! Here are some hikes you can go on"):
         elif result['hiking_experience'] == 'Intermediate':
             int_trails = data[data['intensity_rating'] == 'Moderate']
             random_int_trails = int_trails.sample(n=3, replace=True) if len(int_trails) >= 3 else int_trails
-            st.session_state.trail_options = {
+            st.session_state.trailOptions = {
                 'option1': random_int_trails.iloc[0],
                 'option2': random_int_trails.iloc[1],
                 'option3': random_int_trails.iloc[2],
@@ -70,11 +69,11 @@ with st.spinner("That's great to know! Here are some hikes you can go on"):
                 'name2': random_int_trails.iloc[1]['trail_name'],
                 'name3': random_int_trails.iloc[2]['trail_name']
             }
-        # # Select 3 random trails for Advanced
+        # Select 3 random trails for Advanced
         elif result['hiking_experience'] == 'Advanced':
             diff_trails = data[data['intensity_rating'] == 'Challenging']
             random_diff_trails = diff_trails.sample(n=3, replace=True) if len(diff_trails) >= 3 else diff_trails
-            st.session_state.trail_options = {
+            st.session_state.trailOptions = {
                 'option1': random_diff_trails.iloc[0],
                 'option2': random_diff_trails.iloc[1],
                 'option3': random_diff_trails.iloc[2],
@@ -82,22 +81,22 @@ with st.spinner("That's great to know! Here are some hikes you can go on"):
                 'name2': random_diff_trails.iloc[1]['trail_name'],
                 'name3': random_diff_trails.iloc[2]['trail_name']
             }
-    #Display the three random trails in buttons
+    # Display the three random trails in buttons
     st.write("Here are some " + result['hiking_experience'] + " trails you can check out. Click one to learn more!")
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
-        if st.button(st.session_state.trail_options['name1'], key="button1", on_click=show_trail_details, args=(st.session_state.trail_options['option1'],)):
+        if st.button(st.session_state.trailOptions['name1'], key="button1", on_click=show_trail_details, args=(st.session_state.trailOptions['option1'],)):
             pass
     with col2:
-        if st.button(st.session_state.trail_options['name2'], key="button2", on_click=show_trail_details, args=(st.session_state.trail_options['option2'],)):
+        if st.button(st.session_state.trailOptions['name2'], key="button2", on_click=show_trail_details, args=(st.session_state.trailOptions['option2'],)):
             pass
     with col3:
-        if st.button(st.session_state.trail_options['name3'], key="button3", on_click=show_trail_details, args=(st.session_state.trail_options['option3'],)):
+        if st.button(st.session_state.trailOptions['name3'], key="button3", on_click=show_trail_details, args=(st.session_state.trailOptions['option3'],)):
             pass
 
-    # Display trail details using session state
-    if st.session_state.show_details and st.session_state.selected_trail is not None:
-        printDict = st.session_state.selected_trail
+    # Display trail details if button clicked
+    if st.session_state.showDetails and st.session_state.selectedTrail is not None:
+        printDict = st.session_state.selectedTrail
         st.write("")
         st.write("Trail Name: " + str(printDict["trail_name"]))
         st.write("Hike Length (miles): " + str(printDict["hike_length"]))
@@ -109,30 +108,31 @@ with st.spinner("That's great to know! Here are some hikes you can go on"):
         # Create two columns for the buttons
         col1, col2 = st.columns(2)
         with col1:
+            # Yes button
             if st.button("Yes", key="confirm_trail"):
-                st.session_state.selected_trail_name = printDict["trail_name"]
+                st.session_state.selectedTrailName = printDict["trail_name"]
         with col2:
             # Refresh button to get new trail options
             if st.button("Refresh Options", key="refresh_trails"):
-                st.session_state.trail_options = None
-                st.session_state.selected_trail = None
-                st.session_state.show_details = False
-                st.session_state.selected_trail_name = None
+                st.session_state.trailOptions = None
+                st.session_state.selectedTrail = None
+                st.session_state.showDetails = False
+                st.session_state.selectedTrailName = None
                 st.rerun()
     else:
         st.write("Pick a trail to learn more about...")
-# Only show the map and additional information if a trail is selected
-if st.session_state.selected_trail_name:
+# Only show the map and additional information if Yes button clicked
+if st.session_state.selectedTrailName:
     #Location Map
     st.markdown("# Location Map")
     
     # Extract the first values from latitude and longitude columns
-    selected_trail = data[data['trail_name'] == st.session_state.selected_trail_name]
+    selectedTrail = data[data['trail_name'] == st.session_state.selectedTrailName]
     
-    if not selected_trail.empty:
+    if not selectedTrail.empty:
         # Extract the first values from latitude and longitude columns
-        lat = selected_trail['latitude'].iloc[0]
-        lon = selected_trail['longitude'].iloc[0]
+        lat = selectedTrail['latitude'].iloc[0]
+        lon = selectedTrail['longitude'].iloc[0]
 
         # Update the DataFrame with the specific coordinates
         df = pd.DataFrame({
@@ -145,7 +145,7 @@ if st.session_state.selected_trail_name:
     
     # Plants and Terrain Prototype
     def get_completion2(model="gpt-3.5-turbo"):
-        prompt = f"For the trail {st.session_state.selected_trail_name}, create exactly 9 items in this format:\n\
+        prompt = f"For the trail {st.session_state.selectedTrailName}, create exactly 9 items in this format:\n\
                   PLANTS:\n\
                   1. [plant 1]\n\
                   2. [plant 2]\n\
@@ -171,7 +171,7 @@ if st.session_state.selected_trail_name:
         return completion.choices[0].message.content
 
     def parse_table_content(text):
-        # Initialize empty lists
+        # Make an empty list for each of the topics
         plants = []
         animals = []
         terrain = []
@@ -259,7 +259,7 @@ if st.session_state.selected_trail_name:
         first_row = [plants[0], animals[0], terrain[0]]
         urls = get_image(first_row)
 
-        st.subheader('Visual Preview:', divider='grey')
+        st.subheader('AI Generated Preview:', divider='grey')
         image_col1, image_col2, image_col3 = st.columns(3)
 
         with image_col1:
