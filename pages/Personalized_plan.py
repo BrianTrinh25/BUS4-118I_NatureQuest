@@ -128,7 +128,7 @@ with st.spinner("That's great to know! Here are some hikes you can go on"):
 if st.session_state.selectedTrailName:
     st.sidebar.page_link("pages/Personalized_plan.py", label="Personalized Plan")
     st.sidebar.page_link("pages/packinginfo.py", label = "Packing Info")
-    st.sidebar.write("insert educational page link here")
+    st.sidebar.page_link("pages/educationplan.py", label = "Education Plan")
     result['selected_trail'] = st.session_state.selectedTrailName
     #Location Map
     st.markdown("# Location Map")

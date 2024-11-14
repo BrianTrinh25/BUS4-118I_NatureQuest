@@ -22,7 +22,7 @@ if st.session_state.rerun2 is True:
 st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
 st.sidebar.page_link("pages/Personalized_plan.py", label="Personalized Plan")
 st.sidebar.page_link("pages/packinginfo.py", label = "Packing Info")
-st.sidebar.write("insert educational page here")
+st.sidebar.page_link("pages/educationplan.py", label = "Education Plan")
 st.title("Packing List")
 st.write("What Should You Bring")
 st.sidebar.markdown("# Here's some supplies you should bring on the hike!")
