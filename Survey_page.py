@@ -2,6 +2,9 @@ import streamlit as st
 import streamlit_survey as ss
 
 #format sidebar
+def transition():
+    st.switch_page("pages/transition.py")
+    st.session_state.rerun = True
 st.markdown("""
     <style>
       section[data-testid="stSidebar"] {
@@ -11,11 +14,13 @@ st.markdown("""
       }
     </style>""", unsafe_allow_html=True)
 st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
-
 # Initialize the session state for showing/hiding sections
 if 'show_survey' not in st.session_state:
     st.session_state.show_survey = False
-
+if "rerun" not in st.session_state:
+    st.session_state.rerun = True
+if "rerun2" not in st.session_state:
+    st.session_state.rerun2 = True
 # Initial title page
 if not st.session_state.show_survey:
     st.title("Nature Quest - AI Hiking Assistant")
@@ -46,11 +51,13 @@ if st.session_state.show_survey:
         result['time_check_start'] = ""
     if 'time_check_end' not in result:
         result['time_check_end'] = ""
+    if 'selected_trail' not in result:
+        result['selected_trail'] = ""
 
     survey = ss.StreamlitSurvey()
 
     #survey
-    pages = survey.pages(6, on_submit=lambda: st.switch_page("pages/transition.py"))
+    pages = survey.pages(6, on_submit=lambda: transition())
     with pages:
         if pages.current == 0:
             st.write("Let's get started!")
@@ -131,3 +138,4 @@ if st.session_state.show_survey:
             
     #progress bar
     my_bar = st.progress(int(pages.current*100/5), "Question " + str(pages.current) + " out of 5")
+

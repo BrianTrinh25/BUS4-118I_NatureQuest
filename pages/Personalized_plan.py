@@ -6,6 +6,7 @@ from openai import OpenAI
 import pandas as pd
 from Survey_page import result
 
+
 # Initialize session state if nonexisting
 if 'selectedTrail' not in st.session_state:
     st.session_state.selectedTrail = None
@@ -28,7 +29,7 @@ st.markdown("""
       }
     </style>""", unsafe_allow_html=True)
 st.sidebar.image("pages/logo.png", use_column_width=True, caption=None)
-st.sidebar.markdown("Your personalized plan begins here.")
+st.sidebar.markdown("# Your personalized plan begins here.")
 st.markdown("# Trail Selection")
 # Load the dataset into a pandas DataFrame
 data = pd.read_excel('pages/trail_list.xlsx')
@@ -82,7 +83,7 @@ with st.spinner("That's great to know! Here are some hikes you can go on"):
                 'name3': random_diff_trails.iloc[2]['trail_name']
             }
     # Display the three random trails in buttons
-    st.write("Here are some " + result['hiking_experience'] + " trails you can check out. Click one to learn more!")
+    st.write("Here are some " + result['hiking_experience'] + " difficulty trails you can check out. Click one to learn more!")
     col1, col2, col3 = st.columns([1,1,1])
     with col1:
         if st.button(st.session_state.trailOptions['name1'], key="button1", on_click=show_trail_details, args=(st.session_state.trailOptions['option1'],)):
@@ -102,7 +103,9 @@ with st.spinner("That's great to know! Here are some hikes you can go on"):
         st.write("Hike Length (miles): " + str(printDict["hike_length"]))
         st.write("Elevation Change (gain/loss): " + str(printDict["elevation_gain_loss"]))
         st.write("Intensity: " + str(printDict["intensity_rating"]))
-        st.write("Decsription: " + str(printDict["Description"]))
+        st.write("Description: " + str(printDict["Description"]))
+        st.write("")
+        st.write("More information will appear in the sidebar and on this page after confirming your trail!")
         st.write("")
         st.write("Is this the trail you want to try?")
         # Create two columns for the buttons
@@ -123,6 +126,10 @@ with st.spinner("That's great to know! Here are some hikes you can go on"):
         st.write("Pick a trail to learn more about...")
 # Only show the map and additional information if Yes button clicked
 if st.session_state.selectedTrailName:
+    st.sidebar.page_link("pages/Personalized_plan.py", label="Personalized Plan")
+    st.sidebar.page_link("pages/packinginfo.py", label = "Packing Info")
+    st.sidebar.write("insert educational page link here")
+    result['selected_trail'] = st.session_state.selectedTrailName
     #Location Map
     st.markdown("# Location Map")
     
@@ -231,7 +238,7 @@ if st.session_state.selectedTrailName:
         return all_urls
 
     # If not ready add a spinner
-    with st.spinner("Loading trail information..."):
+    with st.spinner("Loading more information..."):
         # Get and display table content
         table_content = get_completion2()
         plants, animals, terrain = parse_table_content(table_content)
