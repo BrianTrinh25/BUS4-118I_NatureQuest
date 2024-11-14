@@ -19,8 +19,6 @@ if 'show_survey' not in st.session_state:
     st.session_state.show_survey = False
 if "rerun" not in st.session_state:
     st.session_state.rerun = True
-if "rerun2" not in st.session_state:
-    st.session_state.rerun2 = True
 # Initial title page
 if not st.session_state.show_survey:
     st.title("Nature Quest - AI Hiking Assistant")
