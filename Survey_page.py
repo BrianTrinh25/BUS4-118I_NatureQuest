@@ -27,7 +27,7 @@ if not st.session_state.show_survey:
     if st.button("Let's go!", type="primary"):
         st.session_state.show_survey = True
         st.rerun()
-
+    st.write("**Disclaimer: Users should verify trail conditions and hazardous weather for their own safety**")
 # Survey section
 if st.session_state.show_survey:
     st.markdown("# Survey 📑👩🏻‍💻📝")
