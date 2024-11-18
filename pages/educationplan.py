@@ -36,7 +36,7 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
         {"role": "system", "content": f"Respond as a local expert on environments, including floral and plants and water in creekside,\
          based on this specific hike {prompt}, give educational advice on how to keep the environement clean for the water,\
          how to protect the local floral and plants on that hike, and how to respect the environment in general. Present the advice in\
-          3 columns"},
+         numbered list with heading for each section"},
         {"role": "user", "content": prompt},
         ]
     )
