@@ -1,4 +1,4 @@
-# 118iGoldenTeam
+# NatureQuest.ai
 ## What is NatureQuest?
 NatureQuest is an AI-powered hiking assistant that encourages users to lead a healthier lifestyle and gain more environmental awareness by recommending trails in the area and educating them about the best environmental practices to remember while hiking.
 
